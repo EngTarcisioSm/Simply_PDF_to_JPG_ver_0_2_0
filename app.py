@@ -12,6 +12,9 @@ import math
 from models.design import *
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
 
+
+from cx_Freeze import setup, Executable
+
 class MainWindow(QMainWindow, Ui_MainWindow):
      
      def __init__(self, parent=None):
@@ -36,20 +39,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
      def open_pdf(self):
           self.value_progress_bar = 0
           self.progressBar.setValue(self.value_progress_bar)
-
           file_pdf, _ = QFileDialog.getOpenFileName(
                None,
                'Open PDF',
-               r'/%HOME',
+               r'',
           )
           self.dir_file = file_pdf
           self.openFile.setText(file_pdf)
      
      def save_img(self):
+          self.value_progress_bar = 0
+          self.progressBar.setValue(self.value_progress_bar)
+
           save_jpg = QFileDialog.getExistingDirectory(
                None,
                'Save Dir',
-               r'/%HOME',
+               r'',
           )
           self.dir_name = save_jpg
           self.define_dir()
@@ -65,7 +70,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                while proc.is_alive():
                     sleep(1)
 
-               self.percent = math.ceil(100 / len(self.convert_proc))
+               self.percent = math.floor(100 / len(self.convert_proc))
+               print(self.percent)
 
                for num in range(len(self.convert_proc)):
                     path_img = self.dir_work + '\\' + 'page' + " " + str(num) + '.png'
@@ -81,6 +87,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
           self.dir_file = ''
           self.dir_name = ''
           self.dir_work = ''
+          if self.value_progress_bar > 90 and self.value_progress_bar != 100:
+               self.progressBar.setValue(100)
+
           
      def save_images(self, img, path_img):
           img.save(path_img, 'PNG')
@@ -123,6 +132,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
           self.progressBar.setValue(self.value_progress_bar)
 
 if __name__ == '__main__':
+
      qt = QApplication(sys.argv)
      new = MainWindow()
      new.show()

@@ -4,7 +4,7 @@
 
 
 ## Instalação
-- Descompacte o arquivo zip presente no repositório em algum diretório 
+- Descompacte o arquivo zip presente na Pasta "Installer" e execute-o
 
 ## Observação:
 - Ao instalar o programa a pasta 'poppler-0.68.0' deve sempre ficar junto ao arquivo executavel não devendo em hipótese alguma ter seu nome alterado 
