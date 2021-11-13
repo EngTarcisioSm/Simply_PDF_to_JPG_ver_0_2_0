@@ -13,8 +13,6 @@ from models.design import *
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
 
 
-from cx_Freeze import setup, Executable
-
 class MainWindow(QMainWindow, Ui_MainWindow):
      
      def __init__(self, parent=None):
@@ -87,7 +85,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
           self.dir_file = ''
           self.dir_name = ''
           self.dir_work = ''
-          if self.value_progress_bar > 90 and self.value_progress_bar != 100:
+          if self.value_progress_bar != 0 and self.value_progress_bar != 100:
                self.progressBar.setValue(100)
 
           

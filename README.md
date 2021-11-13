@@ -8,3 +8,8 @@
 
 ## Observação:
 - Ao instalar o programa a pasta 'poppler-0.68.0' deve sempre ficar junto ao arquivo executavel não devendo em hipótese alguma ter seu nome alterado 
+
+
+## Correções:
+- Nome do aplicativo 
+- Barra de progress

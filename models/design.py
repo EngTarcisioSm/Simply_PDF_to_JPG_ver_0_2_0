@@ -39,6 +39,6 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Convert PDF to JPG"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Convert PDF to PNG"))
         self.pushButtonSave.setText(_translate("MainWindow", "Save"))
         self.pushButtonOpen.setText(_translate("MainWindow", "Open"))
