@@ -14,20 +14,24 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 41)
+        MainWindow.resize(800, 68)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
+        self.pushButtonSave = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButtonSave.setObjectName("pushButtonSave")
+        self.gridLayout.addWidget(self.pushButtonSave, 0, 2, 1, 1)
         self.pushButtonOpen = QtWidgets.QPushButton(self.centralwidget)
         self.pushButtonOpen.setObjectName("pushButtonOpen")
         self.gridLayout.addWidget(self.pushButtonOpen, 0, 1, 1, 1)
         self.openFile = QtWidgets.QLineEdit(self.centralwidget)
         self.openFile.setObjectName("openFile")
         self.gridLayout.addWidget(self.openFile, 0, 0, 1, 1)
-        self.pushButtonSave = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButtonSave.setObjectName("pushButtonSave")
-        self.gridLayout.addWidget(self.pushButtonSave, 0, 2, 1, 1)
+        self.progressBar = QtWidgets.QProgressBar(self.centralwidget)
+        self.progressBar.setProperty("value", 0)
+        self.progressBar.setObjectName("progressBar")
+        self.gridLayout.addWidget(self.progressBar, 1, 0, 1, 3)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -36,5 +40,5 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Convert PDF to JPG"))
-        self.pushButtonOpen.setText(_translate("MainWindow", "Open"))
         self.pushButtonSave.setText(_translate("MainWindow", "Save"))
+        self.pushButtonOpen.setText(_translate("MainWindow", "Open"))

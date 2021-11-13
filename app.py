@@ -4,6 +4,11 @@ import shutil
 
 from pdf2image import convert_from_path
 
+from threading import Thread
+from time import sleep
+
+import math
+
 from models.design import *
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
 
@@ -16,12 +21,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
           self.dir_file = ''
           self.dir_name = ''
           self.dir_work = ''
+          self.value_progress_bar = 0
+          self.convert_proc = 0
+          self.cwd = ''
+
+          self.percent = 0
+
+          self.where_i_am()
 
           self.pushButtonOpen.clicked.connect(self.open_pdf)
           self.pushButtonSave.clicked.connect(self.save_img)
      
      
      def open_pdf(self):
+          self.value_progress_bar = 0
+          self.progressBar.setValue(self.value_progress_bar)
+
           file_pdf, _ = QFileDialog.getOpenFileName(
                None,
                'Open PDF',
@@ -43,19 +58,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                self.convert()
 
      def convert(self):
-          cwd = os.getcwd()
-          cwd = os.path.join(cwd, 'poppler-0.68.0')
-          cwd = os.path.join(cwd, 'bin')
-          
-          print(self.dir_work + 'xyz')
           
           try:
-               images = convert_from_path(self.dir_file, poppler_path=cwd)
-               for num in range(len(images)):
+               proc = Thread(target=self.convert_process, args=())
+               proc.start()
+               while proc.is_alive():
+                    sleep(1)
+
+               self.percent = math.ceil(100 / len(self.convert_proc))
+
+               for num in range(len(self.convert_proc)):
                     path_img = self.dir_work + '\\' + 'page' + " " + str(num) + '.png'
-                    images[num].save(path_img, 'PNG')
+                    sv = Thread(target=self.save_images, args=(self.convert_proc[num], path_img))
+                    sv.start()
+
+                    while sv.is_alive():
+                         sleep(1)
+
+                    self.progress()
           except:
                ...
+          self.dir_file = ''
+          self.dir_name = ''
+          self.dir_work = ''
+          
+     def save_images(self, img, path_img):
+          img.save(path_img, 'PNG')
+
+     def convert_process(self):
+          self.convert_proc = convert_from_path(self.dir_file, poppler_path=self.cwd)
+
+     def where_i_am(self):
+          self.cwd = os.getcwd()
+          self.cwd = os.path.join(self.cwd, 'poppler-0.68.0')
+          self.cwd = os.path.join(self.cwd, 'bin')
      
      def define_name_new_dir(self):
           aux = self.dir_file.split('/')
@@ -81,6 +117,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
           aux = self.dir_name.split('/')
           for part in aux:
                self.dir_work = self.dir_work + part + "\\"
+
+     def progress(self):
+          self.value_progress_bar += self.percent 
+          self.progressBar.setValue(self.value_progress_bar)
 
 if __name__ == '__main__':
      qt = QApplication(sys.argv)
